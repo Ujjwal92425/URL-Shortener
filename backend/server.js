@@ -8,13 +8,13 @@ const PORT = 5000;
 const DATA_FILE = "./data.json";
 
 app.use(cors());
-app.use(express.json()); // Middleware to parse JSON
+app.use(express.json()); 
 
-// ✅ Ensure data file exists & load URLs safely
+
 const loadUrls = () => {
   try {
     if (!fs.existsSync(DATA_FILE)) {
-      fs.writeFileSync(DATA_FILE, "[]"); // Create empty array if file doesn't exist
+      fs.writeFileSync(DATA_FILE, "[]"); 
     }
     const data = fs.readFileSync(DATA_FILE, "utf-8") || "[]";
     return JSON.parse(data);
@@ -24,7 +24,7 @@ const loadUrls = () => {
   }
 };
 
-// ✅ Save URLs to file safely
+
 const saveUrls = (urls) => {
   try {
     fs.writeFileSync(DATA_FILE, JSON.stringify(urls, null, 2));
@@ -33,7 +33,7 @@ const saveUrls = (urls) => {
   }
 };
 
-// ✅ API to shorten a URL
+
 app.post("/shorten", (req, res) => {
   const { originalUrl } = req.body;
   if (!originalUrl) {
@@ -50,7 +50,7 @@ app.post("/shorten", (req, res) => {
   res.json(newEntry);
 });
 
-// ✅ API to retrieve the original URL
+
 app.get("/:shortUrl", (req, res) => {
   const { shortUrl } = req.params;
   const urls = loadUrls();
@@ -63,7 +63,6 @@ app.get("/:shortUrl", (req, res) => {
   }
 });
 
-// ✅ Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
